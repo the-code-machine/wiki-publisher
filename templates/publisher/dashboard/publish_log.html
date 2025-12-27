@@ -1,0 +1,313 @@
+{% extends 'base_dashboard.html' %} {% block dashboard_content %}
+<div class="mb-6 flex justify-between items-end">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Publish Log</h1>
+    <p class="text-sm text-gray-500 mt-1">
+      A history of all publications and their on-wiki review status.
+    </p>
+  </div>
+  <button
+    onclick="downloadCSV()"
+    class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md shadow-sm text-sm font-medium transition-colors flex items-center"
+  >
+    <i class="fa-solid fa-download mr-2 text-gray-400"></i> Download CSV
+  </button>
+</div>
+
+<div
+  class="bg-white shadow sm:rounded-lg border border-gray-200 overflow-hidden mb-12"
+>
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+          >
+            File
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+          >
+            Target Page
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+          >
+            Timestamp
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+          >
+            Version
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+          >
+            User Role
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+          >
+            Page Status
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
+          >
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200 text-sm">
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+            improved-gallery.js
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            MediaWiki:Gadget-improved-g...
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            2024-05-20 14:30:15 UTC
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-xs font-mono"
+              >v1.2.1</span
+            >
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            <i class="fa-solid fa-shield-halved mr-1 text-gray-400"></i>
+            Interface Admin
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+            >
+              <i class="fa-solid fa-circle-check mr-1.5"></i> Reviewed
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-400">
+            <button class="hover:text-gray-600">
+              <i class="fa-solid fa-rotate-left"></i> Revert
+            </button>
+          </td>
+        </tr>
+
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+            improved-gallery.css
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            MediaWiki:Gadget-improved-g...
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            2024-05-20 14:30:15 UTC
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-xs font-mono"
+              >v1.2.1</span
+            >
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            <i class="fa-solid fa-shield-halved mr-1 text-gray-400"></i>
+            Interface Admin
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+            >
+              <i class="fa-solid fa-circle-check mr-1.5"></i> Reviewed
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-400">
+            <button class="hover:text-gray-600">
+              <i class="fa-solid fa-rotate-left"></i> Revert
+            </button>
+          </td>
+        </tr>
+
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+            utils.js
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            User:DemoUser/lib/utils.js
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            2024-05-18 10:05:00 UTC
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-xs font-mono"
+              >v1.1.0</span
+            >
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            <i class="fa-regular fa-user mr-1 text-gray-400"></i> DemoUser
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+            >
+              <i class="fa-solid fa-circle-check mr-1.5"></i> Reviewed
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-400">
+            <button class="hover:text-gray-600">
+              <i class="fa-solid fa-rotate-left"></i> Revert
+            </button>
+          </td>
+        </tr>
+
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+            improved-gallery.js
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            MediaWiki:Gadget-improved-g...
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            2024-05-15 09:00:00 UTC
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-xs font-mono"
+              >v1.2.0</span
+            >
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            <i class="fa-solid fa-shield-halved mr-1 text-gray-400"></i>
+            Interface Admin
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"
+            >
+              <i class="fa-solid fa-circle-xmark mr-1.5"></i> Error
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-400">
+            <button class="hover:text-gray-600">
+              <i class="fa-solid fa-rotate-left"></i> Retry
+            </button>
+          </td>
+        </tr>
+
+        <tr
+          id="row-pending"
+          class="bg-yellow-50 hover:bg-yellow-100 transition-colors border-l-4 border-yellow-400"
+        >
+          <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+            new-feature.js
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            User:DemoUser/new-feature.js
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            2024-05-22 11:00:00 UTC
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-600 text-xs font-mono"
+              >v1.3.0</span
+            >
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            <i class="fa-regular fa-user mr-1 text-gray-400"></i> DemoUser
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap" id="status-cell">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
+            >
+              <i class="fa-regular fa-clock mr-1.5"></i> Pending Review
+            </span>
+          </td>
+          <td
+            class="px-6 py-4 whitespace-nowrap text-gray-500"
+            id="action-cell"
+          >
+            <button
+              onclick="markReviewed(this)"
+              class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1 rounded text-xs font-medium shadow-sm transition-colors flex items-center"
+            >
+              <i class="fa-regular fa-eye mr-1.5"></i> Mark Reviewed
+            </button>
+          </td>
+        </tr>
+
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+            beta-feature.js
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            User:DemoUser/sandbox/beta...
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            2024-05-11 11:00:00 UTC
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="px-2 py-0.5 rounded bg-gray-100 text-gray-600 text-xs font-mono"
+              >v0.1.0</span
+            >
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            <i class="fa-regular fa-user mr-1 text-gray-400"></i> DemoUser
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+            >
+              <i class="fa-solid fa-circle-check mr-1.5"></i> Reviewed
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-400">
+            <button class="hover:text-gray-600">
+              <i class="fa-solid fa-rotate-left"></i> Revert
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function downloadCSV() {
+    alert("Downloading publish_log_2024-05-23.csv...");
+  }
+
+  function markReviewed(btn) {
+    // Find the row and cells
+    const row = document.getElementById("row-pending");
+    const statusCell = document.getElementById("status-cell");
+    const actionCell = document.getElementById("action-cell");
+
+    // 1. Change Status Badge to Green
+    statusCell.innerHTML = `
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                <i class="fa-solid fa-circle-check mr-1.5"></i> Reviewed
+            </span>
+        `;
+
+    // 2. Change Action to Revert (Standard)
+    actionCell.innerHTML = `
+            <button class="text-gray-400 hover:text-gray-600 text-sm"><i class="fa-solid fa-rotate-left"></i> Revert</button>
+        `;
+
+    // 3. Remove Yellow Highlight from Row
+    row.className = "hover:bg-gray-50 transition-colors bg-white";
+
+    // Optional: Show toast
+    alert("Marked 'new-feature.js' as reviewed.");
+  }
+</script>
+{% endblock %}

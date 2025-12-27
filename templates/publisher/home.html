@@ -1,0 +1,104 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="relative overflow-hidden bg-white pt-20 pb-32">
+  <div
+    class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center"
+  >
+    <h1
+      class="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mb-6 max-w-5xl leading-tight"
+    >
+      Streamline Your Wiki Contributions
+    </h1>
+
+    <p
+      class="mt-2 text-lg md:text-xl text-gray-500 max-w-3xl mx-auto mb-16 leading-relaxed"
+    >
+      Publish gadgets and user scripts from any public Git repository directly
+      to <br class="hidden md:block" />
+      Wikimedia wikis. No more manual copy-pasting.
+    </p>
+
+    <div
+      class="w-full max-w-5xl bg-white border border-gray-200 rounded-xl p-8 md:p-12 relative z-10 text-left shadow-sm"
+    >
+      <div class="mb-10">
+        <h3 class="text-xl font-bold text-gray-900">
+          Your Publishing Workflow, Simplified
+        </h3>
+        <p class="text-gray-500 text-sm mt-2">
+          A simple, three-step process to get your code from repo to a live wiki
+          page.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="flex gap-4 items-start">
+          <div
+            class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-50 flex items-center justify-center text-brand-600 mt-1"
+          >
+            <i class="fa-solid fa-upload text-sm"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 text-base">
+              1. Connect & Select
+            </h4>
+            <p class="text-gray-500 text-sm leading-relaxed mt-1">
+              Link a Git repo, lint files, and choose what to publish.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-start">
+          <div
+            class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-50 flex items-center justify-center text-brand-600 mt-1"
+          >
+            <i class="fa-solid fa-code-branch text-sm"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 text-base">
+              2. Map & Configure
+            </h4>
+            <p class="text-gray-500 text-sm leading-relaxed mt-1">
+              Map source files to destination wiki pages with ease.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-start">
+          <div
+            class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-50 flex items-center justify-center text-brand-600 mt-1"
+          >
+            <i class="fa-solid fa-paper-plane text-sm"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 text-base">
+              3. Review & Publish
+            </h4>
+            <p class="text-gray-500 text-sm leading-relaxed mt-1">
+              Review changes, add metadata, and deploy with one click.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-100 hidden">
+        <form method="POST" class="w-full flex gap-3">
+          {% csrf_token %}
+          <input
+            type="url"
+            name="repo_url"
+            placeholder="Enter your GitHub repository URL..."
+            class="flex-1 rounded-md border-gray-300 border px-4 py-2 text-gray-900 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none text-sm"
+          />
+          <button
+            type="submit"
+            class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2 rounded-md font-semibold text-sm transition-colors"
+          >
+            Start
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

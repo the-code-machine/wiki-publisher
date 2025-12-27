@@ -1,0 +1,164 @@
+{% extends 'base.html' %} {% block navbar %}{% endblock %} {% block content %}
+
+<div
+  class="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50"
+>
+  <div class="mb-8 text-center">
+    <div class="flex items-center justify-center gap-2 mb-2">
+      <a href="{% url 'home' %}" class="flex items-center gap-2 no-underline">
+        <i class="fa-solid fa-code-branch text-brand-600 text-3xl"></i>
+        <span class="font-bold text-3xl text-gray-900 tracking-tight"
+          >WikiPublisher</span
+        >
+      </a>
+    </div>
+  </div>
+
+  <div
+    class="max-w-md w-full bg-white rounded-xl shadow-lg border border-gray-100 p-8"
+  >
+    <div class="bg-gray-100 p-1 rounded-lg flex mb-8">
+      <button
+        id="tab-botpass"
+        onclick="switchTab('botpass')"
+        class="w-1/2 bg-white text-gray-900 shadow-sm rounded-md py-2 text-sm font-semibold transition-all"
+      >
+        BotPassword
+      </button>
+      <button
+        id="tab-oauth"
+        onclick="switchTab('oauth')"
+        class="w-1/2 text-gray-500 hover:text-gray-900 py-2 text-sm font-medium transition-colors"
+      >
+        OAuth
+      </button>
+    </div>
+
+    <div id="content-botpass" class="block">
+      <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-2">BotPassword Login</h2>
+        <p class="text-gray-500 text-sm mb-6">
+          Use a BotPassword for automated publishing. Any details will work for
+          this demo.
+        </p>
+
+        <form method="POST" action="" class="space-y-6">
+          {% csrf_token %}
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Bot Username</label
+            >
+            <input
+              type="text"
+              name="username"
+              placeholder="MaciejBot"
+              class="block w-full rounded-md border-gray-300 border px-3 py-2 text-gray-900 focus:border-brand-500 focus:ring-brand-500 sm:text-sm outline-none shadow-sm"
+              required
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Bot Password</label
+            >
+            <input
+              type="password"
+              name="password"
+              placeholder="••••"
+              class="block w-full rounded-md border-gray-300 border px-3 py-2 text-gray-900 focus:border-brand-500 focus:ring-brand-500 sm:text-sm outline-none shadow-sm"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 transition-colors"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div id="content-oauth" class="hidden">
+      <div class="mb-6 text-center">
+        <h2 class="text-xl font-bold text-gray-900 mb-2">Wikimedia OAuth</h2>
+        <p class="text-gray-500 text-sm mb-6">
+          Log in securely using your main Wikimedia account.
+        </p>
+
+        <div class="border-t border-gray-100 py-6">
+          <a
+            href="#"
+            class="w-full flex justify-center items-center gap-3 py-2.5 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+          >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Wikimedia-logo.svg/1024px-Wikimedia-logo.svg.png"
+              class="h-5 w-5"
+              alt="Wikimedia"
+            />
+            Continue with Wikimedia
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="mt-8 text-center text-sm text-gray-500">
+    New here?
+    <a
+      href="#"
+      class="font-medium text-brand-600 hover:text-brand-500 underline decoration-1 underline-offset-2"
+      >Learn more</a
+    >
+  </p>
+</div>
+
+<script>
+  function switchTab(tabName) {
+    // 1. Buttons
+    const btnBot = document.getElementById("tab-botpass");
+    const btnOAuth = document.getElementById("tab-oauth");
+
+    // 2. Content Sections
+    const contentBot = document.getElementById("content-botpass");
+    const contentOAuth = document.getElementById("content-oauth");
+
+    // Common classes for active vs inactive buttons
+    const activeClasses = [
+      "bg-white",
+      "text-gray-900",
+      "shadow-sm",
+      "font-semibold",
+    ];
+    const inactiveClasses = [
+      "text-gray-500",
+      "hover:text-gray-900",
+      "font-medium",
+    ];
+
+    if (tabName === "botpass") {
+      // Show BotPass content
+      contentBot.classList.remove("hidden");
+      contentOAuth.classList.add("hidden");
+
+      // Style Buttons
+      btnBot.classList.add(...activeClasses);
+      btnBot.classList.remove(...inactiveClasses);
+
+      btnOAuth.classList.remove(...activeClasses);
+      btnOAuth.classList.add(...inactiveClasses);
+    } else if (tabName === "oauth") {
+      // Show OAuth content
+      contentOAuth.classList.remove("hidden");
+      contentBot.classList.add("hidden");
+
+      // Style Buttons
+      btnOAuth.classList.add(...activeClasses);
+      btnOAuth.classList.remove(...inactiveClasses);
+
+      btnBot.classList.remove(...activeClasses);
+      btnBot.classList.add(...inactiveClasses);
+    }
+  }
+</script>
+
+{% endblock %}

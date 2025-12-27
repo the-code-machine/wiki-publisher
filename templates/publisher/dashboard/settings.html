@@ -1,0 +1,138 @@
+{% extends 'base_dashboard.html' %} {% block dashboard_content %}
+<div class="mb-8">
+  <h1 class="text-2xl font-bold text-gray-900">Settings</h1>
+</div>
+
+<div
+  class="bg-white shadow sm:rounded-lg border border-gray-200 overflow-hidden mb-8"
+>
+  <div class="px-6 py-5 border-b border-gray-200">
+    <h3 class="text-lg font-bold text-gray-900">Settings</h3>
+    <p class="mt-1 text-sm text-gray-500">
+      Configure default behaviors and preferences for the WikiPublisher tool.
+    </p>
+  </div>
+
+  <div class="divide-y divide-gray-200">
+    <div class="px-6 py-5 flex items-center justify-between">
+      <div>
+        <h4 class="text-sm font-bold text-gray-900">Auto-increment Version</h4>
+        <p class="text-sm text-gray-500 mt-1">
+          Automatically suggest a new version number (e.g., v1.2.1 → v1.2.2).
+        </p>
+      </div>
+      <button
+        type="button"
+        class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 bg-brand-600"
+        aria-pressed="true"
+      >
+        <span class="sr-only">Use setting</span>
+        <span
+          aria-hidden="true"
+          class="translate-x-5 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+        ></span>
+      </button>
+    </div>
+
+    <div class="px-6 py-5 flex items-center justify-between">
+      <div>
+        <h4 class="text-sm font-bold text-gray-900">Fetch on Load</h4>
+        <p class="text-sm text-gray-500 mt-1">
+          Automatically fetch files when visiting the Upload Files page.
+        </p>
+      </div>
+      <button
+        type="button"
+        class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 bg-gray-200"
+        aria-pressed="false"
+      >
+        <span class="sr-only">Use setting</span>
+        <span
+          aria-hidden="true"
+          class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+        ></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  class="bg-white shadow sm:rounded-lg border border-gray-200 overflow-hidden mb-8"
+>
+  <div class="px-6 py-5 border-b border-gray-200">
+    <h3 class="text-lg font-bold text-gray-900">About WikiPublisher</h3>
+    <p class="mt-1 text-sm text-gray-500">
+      Information and references for this tool.
+    </p>
+  </div>
+
+  <div class="px-6 py-6 text-sm text-gray-600 space-y-4 leading-relaxed">
+    <p>
+      This tool is a prototype designed to simplify publishing JavaScript and
+      CSS files from a public Git repository (like GitHub or GitLab) directly to
+      Wikimedia as gadgets or user scripts.
+    </p>
+    <p>
+      It is based on the proposal from the Community Wishlist Survey 2022, which
+      aimed to create a more streamlined workflow for developers contributing
+      code to Wikimedia projects.
+    </p>
+
+    <div class="pt-2">
+      <h4 class="font-bold text-gray-900 mb-2">How it Works:</h4>
+      <ol class="list-decimal pl-5 space-y-1">
+        <li>
+          <span class="font-bold text-gray-700">Authenticate:</span> Log in with
+          your Wikimedia account (this is a dummy login for the prototype).
+        </li>
+        <li>
+          <span class="font-bold text-gray-700">Upload Files:</span> Provide a
+          URL to your public Git repository to fetch available .js and .css
+          files.
+        </li>
+        <li>
+          <span class="font-bold text-gray-700">Map Files:</span> Assign each
+          source file to a destination wiki page (e.g., a user script or a
+          gadget page).
+        </li>
+        <li>
+          <span class="font-bold text-gray-700">Publish:</span> Add metadata
+          like a title, description, and an edit summary, then publish
+          everything with one click.
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Simple script to toggle visual state of buttons
+  const toggles = document.querySelectorAll("button[aria-pressed]");
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const isPressed = toggle.getAttribute("aria-pressed") === "true";
+      toggle.setAttribute("aria-pressed", !isPressed);
+
+      // Toggle Background Color
+      if (!isPressed) {
+        toggle.classList.remove("bg-gray-200");
+        toggle.classList.add("bg-brand-600");
+      } else {
+        toggle.classList.remove("bg-brand-600");
+        toggle.classList.add("bg-gray-200");
+      }
+
+      // Move the knob
+      const knob = toggle.querySelector('span[aria-hidden="true"]');
+      if (!isPressed) {
+        knob.classList.remove("translate-x-0");
+        knob.classList.add("translate-x-5");
+      } else {
+        knob.classList.remove("translate-x-5");
+        knob.classList.add("translate-x-0");
+      }
+    });
+  });
+</script>
+{% endblock %}

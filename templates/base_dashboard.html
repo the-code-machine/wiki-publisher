@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" class="h-full bg-gray-50">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WikiPublisher Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+            colors: {
+              brand: {
+                50: "#f0f9ff",
+                100: "#e0f2fe",
+                500: "#0ea5e9",
+                600: "#0284c7",
+                700: "#0369a1",
+                900: "#0c4a6e",
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="h-full font-sans">
+    <div class="min-h-full flex">
+      <div
+        class="flex flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0"
+      >
+        <div
+          class="flex items-center h-16 flex-shrink-0 px-4 bg-white border-b border-gray-200"
+        >
+          <i class="fa-solid fa-code-branch text-brand-600 text-xl mr-2"></i>
+          <span class="font-bold text-xl tracking-tight text-gray-900"
+            >WikiPublisher</span
+          >
+        </div>
+
+        <div class="flex-1 flex flex-col overflow-y-auto pt-5 pb-4">
+          <nav class="mt-1 flex-1 px-2 space-y-1">
+            {% with url_name=request.resolver_match.url_name %}
+
+            <a
+              href="{% url 'dashboard' %}"
+              class="{% if url_name == 'dashboard' %}bg-brand-600 text-white{% else %}text-gray-700 hover:bg-gray-50 hover:text-gray-900{% endif %} group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                class="fa-solid fa-house mr-3 flex-shrink-0 h-6 w-6 text-center text-lg"
+              ></i>
+              Home
+            </a>
+            <a
+              href="{% url 'upload_files' %}"
+              class="{% if url_name == 'upload_files' %}bg-brand-600 text-white{% else %}text-gray-700 hover:bg-gray-50 hover:text-gray-900{% endif %} group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                class="fa-solid fa-upload mr-3 flex-shrink-0 h-6 w-6 text-center text-lg"
+              ></i>
+              Upload Files
+            </a>
+            <a
+              href="{% url 'mapping_config' %}"
+              class="{% if url_name == 'mapping_config' %}bg-brand-600 text-white{% else %}text-gray-700 hover:bg-gray-50 hover:text-gray-900{% endif %} group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                class="fa-solid fa-diagram-project mr-3 flex-shrink-0 h-6 w-6 text-center text-lg"
+              ></i>
+              Mapping Config
+            </a>
+            <a
+              href="{% url 'publish' %}"
+              class="{% if url_name == 'publish' %}bg-brand-600 text-white{% else %}text-gray-700 hover:bg-gray-50 hover:text-gray-900{% endif %} group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                class="fa-solid fa-paper-plane mr-3 flex-shrink-0 h-6 w-6 text-center text-lg"
+              ></i>
+              Publish
+            </a>
+            <a
+              href="{% url 'publish_log' %}"
+              class="{% if url_name == 'publish_log' %}bg-brand-600 text-white{% else %}text-gray-700 hover:bg-gray-50 hover:text-gray-900{% endif %} group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                class="fa-solid fa-clock-rotate-left mr-3 flex-shrink-0 h-6 w-6 text-center text-lg"
+              ></i>
+              Publish Log
+            </a>
+            <a
+              href="{% url 'settings' %}"
+              class="{% if url_name == 'settings' %}bg-brand-600 text-white{% else %}text-gray-700 hover:bg-gray-50 hover:text-gray-900{% endif %} group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+            >
+              <i
+                class="fa-solid fa-gear mr-3 flex-shrink-0 h-6 w-6 text-center text-lg"
+              ></i>
+              Settings
+            </a>
+
+            {% endwith %}
+          </nav>
+        </div>
+
+        <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+          <div class="flex items-center w-full">
+            <img
+              class="inline-block h-9 w-9 rounded-full"
+              src="https://i.pravatar.cc/40?img=3"
+              alt=""
+            />
+            <div class="ml-3">
+              <p class="text-sm font-medium text-gray-900">Demo User</p>
+              <p class="text-xs font-medium text-gray-500">
+                user@wikimedia.org
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+          <a
+            href="{% url 'home' %}"
+            class="flex items-center w-full text-gray-700 hover:text-gray-900 hover:bg-gray-50 px-2 py-2 text-sm font-medium rounded-md"
+          >
+            <i
+              class="fa-solid fa-right-from-bracket mr-3 flex-shrink-0 h-6 w-6 text-center text-lg"
+            ></i>
+            Logout
+          </a>
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col pl-64">
+        <main class="flex-1 pb-8">
+          <div class="mt-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            {% block dashboard_content %}{% endblock %}
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

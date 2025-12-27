@@ -1,0 +1,313 @@
+{% extends 'base_dashboard.html' %} {% block dashboard_content %}
+<div class="mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Upload Files</h1>
+</div>
+
+<div class="bg-white shadow sm:rounded-lg border border-gray-200 p-6 mb-8">
+  <h3 class="text-lg font-bold text-gray-900 mb-2">Source Selection</h3>
+  <p class="text-sm text-gray-500 mb-6">
+    Enter a public Git repository URL to fetch your JS/CSS files, or import a
+    gadget suite.
+  </p>
+
+  <div class="flex gap-4 items-start">
+    <div class="flex-grow">
+      <input
+        type="text"
+        id="repoInput"
+        placeholder="https://github.com/user/repo"
+        class="w-full rounded-md border-gray-300 border px-4 py-2.5 text-gray-900 focus:ring-brand-500 focus:border-brand-500 shadow-sm outline-none"
+      />
+      <p class="text-xs text-gray-400 mt-2">
+        e.g., https://github.com/eccenux/wikiploy
+      </p>
+    </div>
+    <div class="flex flex-col gap-2 min-w-[140px]">
+      <button
+        onclick="fetchRepo()"
+        id="fetchBtn"
+        class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-2.5 px-4 rounded-md shadow-sm text-sm transition-colors flex justify-center items-center"
+      >
+        <span id="btnText">Fetch & Lint</span>
+        <i
+          id="btnLoader"
+          class="fa-solid fa-circle-notch fa-spin ml-2 hidden"
+        ></i>
+      </button>
+      <button
+        class="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2.5 px-4 rounded-md shadow-sm text-sm transition-colors"
+      >
+        <i class="fa-solid fa-book-open mr-2"></i> Import Suite
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="fileSection"
+  class="bg-white shadow sm:rounded-lg border border-gray-200 p-6 mb-8 hidden"
+>
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h3 class="text-lg font-bold text-gray-900">
+        Select Files for Publishing
+      </h3>
+      <p class="text-sm text-gray-500">
+        Choose the files you want to map and publish.
+      </p>
+    </div>
+    <div class="flex items-center">
+      <input
+        id="selectAll"
+        type="checkbox"
+        class="h-4 w-4 text-brand-600 focus:ring-brand-500 border-gray-300 rounded"
+        checked
+        onclick="toggleAll(this)"
+      />
+      <label
+        for="selectAll"
+        class="ml-2 block text-sm text-gray-900 font-medium"
+        >Select all</label
+      >
+    </div>
+  </div>
+
+  <div class="overflow-x-auto border border-gray-200 rounded-md">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-10"
+          ></th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            File / Item
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32"
+          >
+            Lint Status
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-24"
+          >
+            Preview
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        id="fileTableBody"
+        class="bg-white divide-y divide-gray-200"
+      ></tbody>
+    </table>
+  </div>
+
+  <div class="mt-6 flex justify-end">
+    <button
+      onclick="saveAndContinue()"
+      class="bg-brand-900 hover:bg-brand-800 text-white px-6 py-2.5 rounded-md font-medium text-sm shadow-sm flex items-center transition-colors"
+    >
+      Continue to Mapping Config <i class="fa-solid fa-arrow-right ml-2"></i>
+    </button>
+  </div>
+</div>
+
+<div
+  id="previewModal"
+  class="fixed inset-0 z-50 hidden overflow-y-auto"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+  >
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+      aria-hidden="true"
+      onclick="closeModal()"
+    ></div>
+    <span
+      class="hidden sm:inline-block sm:align-middle sm:h-screen"
+      aria-hidden="true"
+      >&#8203;</span
+    >
+
+    <div
+      class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full"
+    >
+      <div
+        class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-100"
+      >
+        <div class="flex justify-between items-start">
+          <div>
+            <h3
+              class="text-lg leading-6 font-bold text-gray-900"
+              id="modalTitle"
+            >
+              filename.js
+            </h3>
+            <p class="text-sm text-gray-500 mt-1">
+              Preview of the file content. This is a read-only view.
+            </p>
+          </div>
+          <button
+            onclick="closeModal()"
+            class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
+          >
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 px-4 py-4 sm:p-6 max-h-[60vh] overflow-y-auto">
+        <pre
+          class="text-sm text-gray-800 font-mono whitespace-pre-wrap"
+          id="modalContent"
+        ></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function fetchRepo() {
+    const repoUrl = document.getElementById("repoInput").value;
+    const btnText = document.getElementById("btnText");
+    const btnLoader = document.getElementById("btnLoader");
+    const fileSection = document.getElementById("fileSection");
+    const tableBody = document.getElementById("fileTableBody");
+
+    if (!repoUrl) return alert("Please enter a repository URL");
+
+    // UI Loading State
+    btnText.textContent = "Fetching...";
+    btnLoader.classList.remove("hidden");
+    fileSection.classList.add("hidden");
+    tableBody.innerHTML = ""; // Clear previous
+
+    try {
+      const response = await fetch("/api/fetch-repo/", {
+        method: "POST",
+        body: JSON.stringify({ repo_url: repoUrl }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await response.json();
+
+      if (data.files) {
+        // Render Rows
+        data.files.forEach((file, index) => {
+          const isJs = file.name.endsWith(".js");
+          const iconClass = isJs
+            ? "fa-square-js text-yellow-500"
+            : "fa-css3 text-blue-500";
+          const badgeColor =
+            file.lint_status === "Passed"
+              ? "bg-green-100 text-green-800"
+              : "bg-yellow-100 text-yellow-800";
+          const badgeIcon =
+            file.lint_status === "Passed"
+              ? "fa-circle-check"
+              : "fa-triangle-exclamation";
+
+          // Escape content for safe HTML insertion in the onclick handler
+          const safeContent = file.content
+            .replace(/`/g, "\\`")
+            .replace(/"/g, "&quot;");
+
+          const row = `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox" checked class="h-4 w-4 text-brand-600 focus:ring-brand-500 border-gray-300 rounded file-checkbox">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <i class="fa-brands ${iconClass} text-xl mr-3"></i>
+                                    <span class="text-sm font-medium text-gray-900">${file.name}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${badgeColor} items-center justify-center gap-1 py-0.5">
+                                    <i class="fa-solid ${badgeIcon}"></i> ${file.lint_status}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <button onclick="openModal('${file.name}', \`${safeContent}\`)" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+          tableBody.innerHTML += row;
+        });
+
+        fileSection.classList.remove("hidden");
+      } else {
+        alert("Error fetching repo: " + (data.error || "Unknown error"));
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Failed to connect to server.");
+    } finally {
+      // Reset UI
+      btnText.textContent = "Fetch & Lint";
+      btnLoader.classList.add("hidden");
+    }
+  }
+
+  // ... existing fetchRepo code ...
+
+  function saveAndContinue() {
+    const selectedFiles = [];
+    const rows = document.querySelectorAll("#fileTableBody tr");
+
+    // Loop through table rows to find checked files
+    rows.forEach((row) => {
+      const checkbox = row.querySelector(".file-checkbox");
+      // We look for the filename in the second column's span
+      const nameSpan = row.querySelector("td:nth-child(2) span");
+
+      if (checkbox && checkbox.checked && nameSpan) {
+        selectedFiles.push({
+          name: nameSpan.textContent.trim(),
+        });
+      }
+    });
+
+    if (selectedFiles.length === 0) {
+      alert("Please select at least one file to publish.");
+      return;
+    }
+
+    // Save to Browser Session
+    sessionStorage.setItem("selectedFiles", JSON.stringify(selectedFiles));
+
+    // Navigate to next page (Django URL)
+    window.location.href = "{% url 'mapping_config' %}";
+  }
+  // Modal Functions
+  function openModal(filename, content) {
+    document.getElementById("modalTitle").textContent = filename;
+    document.getElementById("modalContent").textContent = content;
+    document.getElementById("previewModal").classList.remove("hidden");
+  }
+
+  function closeModal() {
+    document.getElementById("previewModal").classList.add("hidden");
+  }
+
+  // "Select All" Logic
+  function toggleAll(source) {
+    checkboxes = document.getElementsByClassName("file-checkbox");
+    for (var i = 0, n = checkboxes.length; i < n; i++) {
+      checkboxes[i].checked = source.checked;
+    }
+  }
+</script>
+{% endblock %}

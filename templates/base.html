@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wiki Script Publisher</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                50: "#f0f9ff",
+                100: "#e0f2fe",
+                500: "#0ea5e9", // Sky blueish
+                600: "#0284c7", // Primary Brand Color
+                700: "#0369a1",
+                900: "#0c4a6e",
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-white text-gray-900 font-sans flex flex-col min-h-screen">
+    {% block navbar %}
+    <nav class="w-full bg-white sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-code-branch text-brand-600 text-xl"></i>
+            <span class="font-bold text-xl tracking-tight text-gray-900"
+              >WikiPublisher</span
+            >
+          </div>
+
+          <div class="hidden md:flex items-center space-x-2">
+            <a
+              href="#"
+              class="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-medium transition-colors border border-gray-200 hover:bg-gray-50"
+            >
+              <i class="fa-solid fa-video mr-2"></i>Watch Demo
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-medium transition-colors border border-gray-200 hover:bg-gray-50"
+            >
+              <i class="fa-regular fa-file-lines mr-2"></i>Assessment
+            </a>
+            <a
+              href="{% url 'get_started' %}"
+              class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-2 rounded-md text-sm font-semibold transition-colors ml-2 shadow-sm flex items-center"
+            >
+              Get Started <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    {% endblock %}
+    <main class="flex-grow">{% block content %} {% endblock %}</main>
+
+    <footer class="bg-white border-t border-gray-100 py-8 mt-auto">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="text-gray-500 text-sm">
+          &copy; {% now "Y" %} WikiPublisher. Built for the Wikimedia Community.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+{% extends 'base_dashboard.html' %} {% block dashboard_content %}
+<div class="mb-8">
+  <h1 class="text-2xl font-bold text-gray-900">Home</h1>
+</div>
+
+<div class="bg-white shadow sm:rounded-lg mb-8">
+  <div class="px-6 py-5">
+    <h3 class="text-xl font-bold text-gray-900">Welcome to WikiPublisher</h3>
+    <p class="mt-1 text-sm text-gray-500">
+      Your central hub for managing and publishing Wikimedia gadgets and
+      scripts.
+    </p>
+  </div>
+</div>
+
+<div class="bg-white shadow sm:rounded-lg mb-8 border border-gray-200">
+  <div class="px-6 py-5">
+    <h3 class="text-lg font-bold text-gray-900">
+      Get Started with Your First Publish
+    </h3>
+    <p class="mt-1 text-sm text-gray-500 mb-6">
+      Follow these steps to get your code from a Git repo to a live Wikimedia
+      page.
+    </p>
+    <div class="flex items-center justify-between">
+      <div class="flex space-x-8">
+        <div class="flex items-center">
+          <span
+            class="h-10 w-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold"
+            >1</span
+          >
+          <div class="ml-4">
+            <h4 class="text-sm font-bold text-gray-900">Upload Files</h4>
+            <p class="text-sm text-gray-500">Connect your Git repo.</p>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <span
+            class="h-10 w-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold"
+            >2</span
+          >
+          <div class="ml-4">
+            <h4 class="text-sm font-bold text-gray-900">Map & Config</h4>
+            <p class="text-sm text-gray-500">Define destinations.</p>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <span
+            class="h-10 w-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-bold"
+            >3</span
+          >
+          <div class="ml-4">
+            <h4 class="text-sm font-bold text-gray-900">Publish</h4>
+            <p class="text-sm text-gray-500">Go live.</p>
+          </div>
+        </div>
+      </div>
+      <a
+        href="{% url 'upload_files' %}"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-600 hover:bg-brand-700"
+        >Start Now <i class="fa-solid fa-arrow-right ml-2"></i
+      ></a>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+  <div
+    class="bg-white shadow sm:rounded-lg border border-gray-200 px-6 py-5 flex flex-col justify-between"
+  >
+    <div>
+      <div class="flex justify-between mb-2">
+        <h3 class="text-lg font-bold text-gray-900">Next Step: Upload</h3>
+        <i class="fa-solid fa-arrow-up-from-bracket text-gray-400"></i>
+      </div>
+      <p class="text-sm text-gray-500">
+        Connect to a public Git repository to fetch your script files.
+      </p>
+    </div>
+    <a
+      href="{% url 'upload_files' %}"
+      class="mt-5 w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+      >Go to Upload</a
+    >
+  </div>
+  <div
+    class="bg-white shadow sm:rounded-lg border border-gray-200 px-6 py-5 flex flex-col justify-between"
+  >
+    <div>
+      <div class="flex justify-between mb-2">
+        <h3 class="text-lg font-bold text-gray-900">Quick Access: Mapping</h3>
+        <i class="fa-solid fa-diagram-project text-gray-400"></i>
+      </div>
+      <p class="text-sm text-gray-500">
+        Review and edit your existing source-to-destination file mappings.
+      </p>
+    </div>
+    <a
+      href="{% url 'mapping_config' %}"
+      class="mt-5 w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+      >Review Mappings</a
+    >
+  </div>
+  <div
+    class="bg-white shadow sm:rounded-lg border border-gray-200 px-6 py-5 flex flex-col justify-between"
+  >
+    <div>
+      <div class="flex justify-between mb-2">
+        <h3 class="text-lg font-bold text-gray-900">Publish History</h3>
+        <i class="fa-solid fa-clock-rotate-left text-gray-400"></i>
+      </div>
+      <p class="text-sm text-gray-500">
+        Check the status of your past publications and review logs.
+      </p>
+    </div>
+    <a
+      href="{% url 'publish_log' %}"
+      class="mt-5 w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+      >View Logs</a
+    >
+  </div>
+</div>
+{% endblock %}
