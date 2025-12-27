@@ -1,29 +1,26 @@
 from pathlib import Path
 import os
-from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+
+# 1. FIX: Only define BASE_DIR once
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env file (for local development)
 load_dotenv(BASE_DIR / ".env")
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+# 2. FIX: Smart DEBUG switching
+# If we are on Render, DEBUG should be False. Locally, it defaults to True.
+# We check if the 'RENDER' environment variable exists.
+DEBUG = 'RENDER' not in os.environ
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)*cje2+d-h_u9oxtb1^$^2xra)fcna=+8i5yv!blumff-^i8t0'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# On Render, set a SECRET_KEY environment variable. Fallback is for dev only.
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-)*cje2+d-h_u9oxtb1^$^2xra)fcna=+8i5yv!blumff-^i8t0')
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
-
 INSTALLED_APPS = [
     "jazzmin",
     'django.contrib.admin',
@@ -35,12 +32,11 @@ INSTALLED_APPS = [
 
     # MY APP
     'publisher',
-   
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware", # <--- CORRECT LOCATION
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,7 +45,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = 'core.urls' # Ensure your main folder is actually named 'core'. If it is 'config', change this to 'config.urls'
 
 TEMPLATES = [
     {
@@ -66,12 +62,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
-
+WSGI_APPLICATION = 'core.wsgi.application' # Same here: check if folder is 'core' or 'config'
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# Uses DATABASE_URL from Render if available, otherwise uses local sqlite
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -79,37 +73,21 @@ DATABASES = {
     )
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
+# Jazzmin Settings
 JAZZMIN_SETTINGS = {
     "site_title": "Core Admin",
     "site_header": "Core Admin",
@@ -118,15 +96,20 @@ JAZZMIN_SETTINGS = {
     "theme": "darkly",
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
+# --- STATIC FILES CONFIGURATION (FIXED) ---
+# This setup works for both Local (Dev) and Render (Prod) without changing code.
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-STATIC_URL = 'static/'
-if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-else:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# 1. Always define STATIC_ROOT. This fixes "ImproperlyConfigured" errors on build.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# 2. Only add STATICFILES_DIRS if the local folder actually exists.
+# This prevents the "directory does not exist" warning.
+local_static_dir = os.path.join(BASE_DIR, 'static')
+if os.path.exists(local_static_dir):
+    STATICFILES_DIRS = [local_static_dir]
+
+# 3. Enable WhiteNoise for serving files
+# We use this storage engine which hashes files (good for caching)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
